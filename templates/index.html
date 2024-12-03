@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heart Attack Prediction</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <section class="container">
+      <header>Discover Your Heart Stroke Risk Factor</header>
+      <form action="/predict" method="POST" class="form">
+        <div class="row1">
+          <div class="input-box">
+            <label for="age">Age</label>
+            <input
+              type="number"
+              name="Age"
+              id="age"
+              placeholder="Enter Your Age"
+              value="{{ request.form.get('Age', '') }}"
+              required
+            />
+          </div>
+          <div class="input-box">
+            <label for="gender">Gender</label>
+            <select id="gender" name="Sex" required>
+              <option value="Male" {% if request.form.get('Sex') == 'Male' %}selected{% endif %}>Male</option>
+              <option value="Female" {% if request.form.get('Sex') == 'Female' %}selected{% endif %}>Female</option>
+              <option value="Other" {% if request.form.get('Sex') == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-box">
+            <label for="chest_pain_type">Chest Pain Type</label>
+            <select id="chest_pain_type" name="ChestPainType" required>
+              <option value="ASY" {% if request.form.get('ChestPainType') == 'ASY' %}selected{% endif %}>ASY</option>
+              <option value="ATA" {% if request.form.get('ChestPainType') == 'ATA' %}selected{% endif %}>ATA</option>
+              <option value="NAP" {% if request.form.get('ChestPainType') == 'NAP' %}selected{% endif %}>NAP</option>
+              <option value="TA" {% if request.form.get('ChestPainType') == 'TA' %}selected{% endif %}>TA</option>
+            </select>
+          </div>
+          <div class="input-box">
+            <label for="bp">Resting BP</label>
+            <input
+              type="number"
+              name="RestingBP"
+              id="bp"
+              placeholder="Enter Resting BP"
+              value="{{ request.form.get('RestingBP', '') }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="input-box">
+            <label for="cholesterol">Cholesterol</label>
+            <input
+              type="number"
+              name="Cholesterol"
+              id="cholesterol"
+              placeholder="Enter Cholesterol Level"
+              value="{{ request.form.get('Cholesterol', '') }}"
+              required
+            />
+          </div>
+          <div class="input-box">
+            <label for="fasting_bs">Fasting BS</label>
+            <input
+              type="number"
+              name="FastingBS"
+              id="fasting_bs"
+              placeholder="Enter Fasting BS"
+              value="{{ request.form.get('FastingBS', '') }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-box">
+            <label for="resting_ecg">Resting ECG</label>
+            <select id="resting_ecg" name="RestingECG" required>
+              <option value="LVH" {% if request.form.get('RestingECG') == 'LVH' %}selected{% endif %}>LVH</option>
+              <option value="NORMAL" {% if request.form.get('RestingECG') == 'NORMAL' %}selected{% endif %}>NORMAL</option>
+              <option value="ST" {% if request.form.get('RestingECG') == 'ST' %}selected{% endif %}>ST</option>
+            </select>
+          </div>
+          <div class="input-box">
+            <label for="max_hr">Max HR</label>
+            <input
+              type="number"
+              name="MaxHR"
+              id="max_hr"
+              placeholder="Enter Max HR"
+              value="{{ request.form.get('MaxHR', '') }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-box">
+            <label for="exercise_angina">Exercise Angina</label>
+            <select id="exercise_angina" name="ExerciseAngina" required>
+              <option value="Yes" {% if request.form.get('ExerciseAngina') == 'Yes' %}selected{% endif %}>Yes</option>
+              <option value="No" {% if request.form.get('ExerciseAngina') == 'No' %}selected{% endif %}>No</option>
+            </select>
+          </div>
+          <div class="input-box">
+            <label for="old_peak">Old Peak</label>
+            <input
+              type="number"
+              name="Oldpeak"
+              id="old_peak"
+              placeholder="Enter Old Peak"
+              value="{{ request.form.get('Oldpeak', '') }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="opt">
+          <label for="st_slope">ST-Slope</label>
+          <select id="st_slope" name="ST_Slope" required>
+            <option value="Down" {% if request.form.get('ST_Slope') == 'Down' %}selected{% endif %}>Down</option>
+            <option value="Flat" {% if request.form.get('ST_Slope') == 'Flat' %}selected{% endif %}>Flat</option>
+            <option value="Up" {% if request.form.get('ST_Slope') == 'Up' %}selected{% endif %}>Up</option>
+          </select>
+          <button type="submit" class="gradient-btn">Submit</button>
+        </div>
+      </form>
+
+      <!-- Display prediction result -->
+      {% if prediction_text %}
+      <div class="result">
+        <p>{{ prediction_text }}</p>
+      </div>
+      {% endif %}
+    </section>
+  </body>
+</html>
